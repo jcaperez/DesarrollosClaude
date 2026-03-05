@@ -128,14 +128,40 @@ sudo netscan 192.168.1.0/24     # subred específica
 
 ---
 
+### 🧹 snapclean — Limpieza de Snap y Flatpak
+
+Elimina de forma segura todo el software instalado por Snap y Flatpak, incluyendo revisiones antiguas, runtimes sin usar y caché. Muestra un listado de lo que se va a eliminar y pide confirmación en cada paso.
+
+**Instalación:**
+```bash
+sudo cp snapclean/snapclean.py /usr/local/bin/snapclean
+```
+
+**Uso:**
+```bash
+sudo snapclean                  # interactivo, confirma cada paso
+sudo snapclean --snap-only      # solo limpia snap
+sudo snapclean --flatpak-only   # solo limpia flatpak
+sudo snapclean --yes            # elimina todo sin preguntar
+```
+
+**Qué limpia:**
+- **Snap:** paquetes de usuario, revisiones antiguas deshabilitadas y caché
+- **Flatpak:** paquetes instalados, runtimes/extensiones sin usar y caché
+
+> Los paquetes de sistema de snap (`core`, `snapd`, `bare`, etc.) se conservan siempre automáticamente.
+
+---
+
 ## Requisitos
 
-| Script      | Python | Dependencias externas                        | Internet |
-|-------------|--------|----------------------------------------------|----------|
-| `weather`   | 3.6+   | Ninguna (solo stdlib)                        | Sí       |
-| `sysmon`    | 3.6+   | `psutil`                                     | No       |
-| `dashboard` | 3.6+   | `psutil`                                     | Sí       |
-| `netscan`   | 3.6+   | `nmap`, `python3-netifaces`                  | No       |
+| Script       | Python | Dependencias externas                        | Internet |
+|--------------|--------|----------------------------------------------|----------|
+| `weather`    | 3.6+   | Ninguna (solo stdlib)                        | Sí       |
+| `sysmon`     | 3.6+   | `psutil`                                     | No       |
+| `dashboard`  | 3.6+   | `psutil`                                     | Sí       |
+| `netscan`    | 3.6+   | `nmap`, `python3-netifaces`                  | No       |
+| `snapclean`  | 3.6+   | Ninguna (usa `snap` y `flatpak` del sistema) | No       |
 
 **Instalación de dependencias:**
 ```bash
