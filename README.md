@@ -1,6 +1,6 @@
 # DesarrollosClaude
 
-Scripts de terminal desarrollados con Claude Code. Todos usan solo librerías estándar de Python (excepto `sysmon` y `dashboard` que requieren `psutil`), no requieren API keys y están listos para usar desde cualquier lugar del sistema.
+Scripts de terminal desarrollados con Claude Code. Están listos para usar desde cualquier lugar del sistema.
 
 ---
 
@@ -86,9 +86,61 @@ dashboard "Nueva York"
 
 ---
 
+### 🔍 netscan — Auditoría de seguridad de red
+
+Analiza la red local en busca de dispositivos activos, servicios expuestos y vulnerabilidades conocidas. Genera un reporte con severidad, recomendaciones y enlaces a fuentes oficiales (CVE, OWASP, documentación del fabricante).
+
+> ⚠️ **Uso ético:** Este script está diseñado para auditoría defensiva de redes propias. No lo uses en redes sin autorización explícita.
+
+**Dependencias:**
+```bash
+sudo apt install nmap python3-netifaces
+```
+
+**Instalación:**
+```bash
+sudo cp netscan/netscan.py /usr/local/bin/netscan
+```
+
+**Uso:**
+```bash
+sudo netscan                    # detecta la subred automáticamente
+sudo netscan 192.168.1.0/24     # subred específica
+```
+
+**Fases del análisis:**
+1. **Descubrimiento** — Detecta todos los hosts activos con IP, MAC y fabricante
+2. **Análisis de servicios** — Escanea puertos críticos, detecta versiones y sistema operativo
+3. **Detección de vulnerabilidades** — Evalúa servicios inseguros y ejecuta scripts NSE de nmap
+
+**Detecta entre otros:**
+- Servicios sin cifrado: Telnet, FTP, VNC, POP3, IMAP
+- Bases de datos expuestas: MySQL, PostgreSQL, MongoDB, Redis
+- Vulnerabilidades críticas: EternalBlue, Heartbleed, Shellshock, POODLE
+- Software desactualizado: OpenSSH, OpenSSL
+- Configuraciones inseguras: FTP anónimo, MySQL sin contraseña, MongoDB sin auth
+
+**Cada hallazgo incluye:**
+- Nivel de severidad: `CRÍTICA` / `ALTA` / `MEDIA` / `BAJA`
+- Descripción del riesgo
+- Recomendación de mitigación
+- Enlaces a CVE, OWASP, documentación oficial y guías de solución
+
+---
+
 ## Requisitos
 
-- Python 3.6+
-- `psutil` (para `sysmon` y `dashboard`): `pip install psutil`
-- Conexión a internet (para `weather` y `dashboard`)
-- APIs utilizadas: [Open-Meteo](https://open-meteo.com/) (clima, gratuita, sin API key)
+| Script      | Python | Dependencias externas                        | Internet |
+|-------------|--------|----------------------------------------------|----------|
+| `weather`   | 3.6+   | Ninguna (solo stdlib)                        | Sí       |
+| `sysmon`    | 3.6+   | `psutil`                                     | No       |
+| `dashboard` | 3.6+   | `psutil`                                     | Sí       |
+| `netscan`   | 3.6+   | `nmap`, `python3-netifaces`                  | No       |
+
+**Instalación de dependencias:**
+```bash
+pip install psutil
+sudo apt install nmap python3-netifaces
+```
+
+**APIs utilizadas:** [Open-Meteo](https://open-meteo.com/) — clima gratuito, sin API key.
